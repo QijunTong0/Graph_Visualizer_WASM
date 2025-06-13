@@ -55,7 +55,6 @@ function fruchtermanReingoldStep(
     k: number,
     temperature: number
 ): number {
-    const area = width * height;
     // Repulsive force
     for (let v of vertices) {
         v.dx = 0;
