@@ -1,42 +1,95 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+body {
+  background: linear-gradient(135deg, #232526 0%, #414345 100%);
+  color: #f3f6fa;
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  margin: 0;
+  min-height: 100vh;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+#root,
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background: none;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+h1 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin: 2rem 0 1.5rem 0;
+  letter-spacing: 1px;
+  color: #e3e8ef;
+  text-shadow: 0 2px 16px #000a;
+}
+
+.graph-canvas {
+  background: radial-gradient(ellipse at 60% 40%, #232526 60%, #181a1b 100%);
+  border-radius: 18px;
+  box-shadow: 0 8px 32px #0008, 0 1.5px 8px #1976d2aa;
+  margin-bottom: 1.5rem;
+  border: none;
+  display: block;
+}
+
+.controls-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  background: rgba(30, 34, 44, 0.85);
+  border-radius: 12px;
+  box-shadow: 0 2px 12px #0004;
+  padding: 0.75rem 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.controls-bar button {
+  background: linear-gradient(90deg, #1976d2 0%, #21cbf3 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #1976d288;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+}
+
+.controls-bar button:hover {
+  background: linear-gradient(90deg, #21cbf3 0%, #1976d2 100%);
+  box-shadow: 0 4px 16px #21cbf388;
+  transform: translateY(-2px) scale(1.04);
+}
+
+.stats-bar {
+  margin-top: 0.5rem;
+  background: rgba(25, 118, 210, 0.12);
+  color: #e3e8ef;
+  border-radius: 8px;
+  padding: 0.5rem 1.5rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  box-shadow: 0 1px 6px #1976d244;
+  display: inline-block;
+}
+
+@media (max-width: 900px) {
+  .graph-canvas {
+    width: 98vw !important;
+    height: 60vw !important;
+    min-width: 0;
+    min-height: 0;
+    max-width: 100vw;
+    max-height: 70vw;
   }
-  to {
-    transform: rotate(360deg);
+
+  .controls-bar {
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem;
   }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
 }

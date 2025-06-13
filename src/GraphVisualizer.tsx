@@ -161,32 +161,56 @@ const GraphVisualizer: React.FC = () => {
         const ctx = canvasRef.current?.getContext("2d");
         if (!ctx) return;
         ctx.clearRect(0, 0, WIDTH, HEIGHT);
-        // Draw edges
-        ctx.strokeStyle = "#aaa";
-        ctx.lineWidth = 1;
+
+        // Draw edges with semi-transparent lines and subtle glow
         for (let e of edges) {
             const v = vertices[e.source];
             const u = vertices[e.target];
+            ctx.save();
+            ctx.strokeStyle = "rgba(33, 203, 243, 0.18)";
+            ctx.shadowColor = "#1976d2";
+            ctx.shadowBlur = 4;
+            ctx.lineWidth = 2;
             ctx.beginPath();
             ctx.moveTo(v.x, v.y);
             ctx.lineTo(u.x, u.y);
             ctx.stroke();
+            ctx.restore();
         }
-        // Draw vertices
+
+        // Draw vertices with gradient, glow, and drop shadow
         for (let v of vertices) {
+            ctx.save();
+            // Glow
+            ctx.shadowColor = "#21cbf3";
+            ctx.shadowBlur = 16;
+            // Gradient fill
+            const grad = ctx.createRadialGradient(v.x, v.y, 2, v.x, v.y, 12);
+            grad.addColorStop(0, "#21cbf3");
+            grad.addColorStop(0.5, "#1976d2");
+            grad.addColorStop(1, "#232526");
             ctx.beginPath();
-            ctx.arc(v.x, v.y, 10, 0, 2 * Math.PI);
-            ctx.fillStyle = "#1976d2";
+            ctx.arc(v.x, v.y, 12, 0, 2 * Math.PI);
+            ctx.fillStyle = grad;
+            ctx.globalAlpha = 0.92;
             ctx.fill();
+            // Node border
+            ctx.lineWidth = 3;
             ctx.strokeStyle = "#fff";
-            ctx.lineWidth = 2;
+            ctx.globalAlpha = 1;
             ctx.stroke();
-            // Draw id
+            ctx.restore();
+
+            // Node id
+            ctx.save();
             ctx.fillStyle = "#fff";
-            ctx.font = "10px sans-serif";
+            ctx.font = "bold 12px 'Inter', Arial, sans-serif";
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
+            ctx.shadowColor = "#232526";
+            ctx.shadowBlur = 4;
             ctx.fillText(String(v.id), v.x, v.y);
+            ctx.restore();
         }
     }, [vertices, edges, iteration]);
 
@@ -201,13 +225,22 @@ const GraphVisualizer: React.FC = () => {
 
     return (
         <div>
-            <canvas ref={canvasRef} width={WIDTH} height={HEIGHT} style={{ border: "1px solid #ccc" }} />
-            <div style={{ marginTop: 8 }}>
-                <button onClick={() => setRunning(r => !r)}>{running ? "Pause" : "Resume"}</button>
-                <button onClick={handleReset} style={{ marginLeft: 8 }}>Reset</button>
-                <span style={{ marginLeft: 16 }}>
-                    Iteration: {iteration} | Max Move: {maxMove.toFixed(2)} | Temp: {temperature.toFixed(2)}
-                </span>
+            <canvas
+                ref={canvasRef}
+                width={WIDTH}
+                height={HEIGHT}
+                className="graph-canvas"
+            />
+            <div className="controls-bar">
+                <button onClick={() => setRunning(r => !r)}>
+                    {running ? "Pause" : "Resume"}
+                </button>
+                <button onClick={handleReset}>
+                    Reset
+                </button>
+            </div>
+            <div className="stats-bar">
+                Iteration: {iteration} &nbsp;|&nbsp; Max Move: {maxMove.toFixed(2)} &nbsp;|&nbsp; Temp: {temperature.toFixed(2)}
             </div>
         </div>
     );
